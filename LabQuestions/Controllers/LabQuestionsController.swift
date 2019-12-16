@@ -28,7 +28,23 @@ class LabQuestionsController: UIViewController {
         tableView.delegate = self
         loadQuestions()
         configureRefreshControl()
+        navigationItem.largeTitleDisplayMode = .never
     }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showQuestionDC" {
+        guard let questionDetailController = segue.destination as? QuestionDetailController,
+            let indexPath = tableView.indexPathForSelectedRow else {
+                fatalError("no segue found")
+        }
+        let selectedQuestion = questions[indexPath.row]
+        
+        questionDetailController.question = selectedQuestion
+            
+        }
+    }
+    
     
     func configureRefreshControl() {
         refreshControl = UIRefreshControl()
